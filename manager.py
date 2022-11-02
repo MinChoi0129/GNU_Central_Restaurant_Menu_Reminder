@@ -1,13 +1,9 @@
-"""Import Libraries"""
-# External Libraries
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import schedule, requests
-# Internal Libraries
 from datetime import datetime
 import json
-# User Libraries
-from tokenGenerator import generateToken
+import tokenRefresher
 
 """MAIN PROGRAM"""
 
@@ -16,6 +12,11 @@ class Type:
     food = ['비빔밥/뚝배기', '양식메뉴', '세트메뉴']
 
 def GNUFoodMessagingService():
+    if tokenRefresher.isRequiredToRefresh_refreshToken():
+        tokenRefresher.refreshRefreshToken()
+    if tokenRefresher.isRequiredToRefresh_accessToken():
+        tokenRefresher.refreshAccessToken()
+    
     menu: list[str] = [str(bs4_element)[12:-4].split('<br/>')[1:-1] for bs4_element in getSeleniumHTMLFromGNUWebPage()]
     sendKakaoTalkMessage(menu)
     
@@ -40,7 +41,7 @@ def getSeleniumHTMLFromGNUWebPage() -> list:
 def sendKakaoTalkMessage(menu):
     message = generateMenuMesseage(menu)
     
-    with open("kakao_code.json","r") as fp:
+    with open("access_token.json","r") as fp:
         tokens = json.load(fp)
 
     url="https://kapi.kakao.com/v2/api/talk/memo/default/send"
@@ -70,9 +71,8 @@ def generateMenuMesseage(menu) -> str:
     return txt
 
 def run():
-    generateToken()
-    schedule.every(5).seconds.do(GNUFoodMessagingService)
     print("Running system...")
+    schedule.every(5).seconds.do(GNUFoodMessagingService)
     while True:
         schedule.run_pending()
 
