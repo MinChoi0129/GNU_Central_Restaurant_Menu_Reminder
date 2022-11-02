@@ -1,6 +1,5 @@
-access_token.json
-normal_token_including_refresh_token.json
-tokenRefresher.py
-lastTokenRefreshDate.txt
+data
+tokens
 __pycache__
 chromedriver.exe
+tokenRefresher.py
