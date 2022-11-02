@@ -21,7 +21,11 @@ def GNUFoodMessagingService():
     sendKakaoTalkMessage(menu)
     
 def getSeleniumHTMLFromGNUWebPage() -> list:
-    browser = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+# 창 숨기는 옵션 추가
+    options.add_argument("headless")
+
+    browser = webdriver.Chrome(options=options)
     browser.get("https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341")
     
     browser.execute_script("\
