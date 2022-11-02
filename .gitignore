@@ -1,2 +1,6 @@
-kakao_code.json
-tokenGenerator.py
+access_token.json
+normal_token_including_refresh_token.json
+tokenRefresher.py
+lastTokenRefreshDate.txt
+__pycache__
+chromedriver.exe
