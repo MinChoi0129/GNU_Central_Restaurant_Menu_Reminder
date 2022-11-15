@@ -73,7 +73,8 @@ def run() -> None:
     print("==============================")
     print("중앙식당알리미를 시작합니다.")
     print("==============================")
-    schedule.every().day.at("12:28").do(GNUFoodMessagingService)
+    # schedule.every().day.at("12:28").do(GNUFoodMessagingService)
+    schedule.every(3).seconds.do(GNUFoodMessagingService)
     while True:
         schedule.run_pending()
 
