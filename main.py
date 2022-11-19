@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from tokenRefresher import *
 import schedule, requests, json
-
+import os
 """MAIN PROGRAM"""
 
 class Type:
