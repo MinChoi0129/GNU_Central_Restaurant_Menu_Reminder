@@ -3,8 +3,6 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from tokenRefresher import *
 import schedule, requests, json
-import os
-"""MAIN PROGRAM"""
 
 class Type:
     day = ['월요일', '화요일', '수요일', '목요일', '금요일']
@@ -19,7 +17,9 @@ def GNUFoodMessagingService() -> None:
     
 def getSeleniumHTMLFromGNUWebPage() -> list:
     options = webdriver.ChromeOptions()
-    options.add_argument("headless")
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
     browser = webdriver.Chrome(options=options)
@@ -58,23 +58,21 @@ def sendKakaoTalkMessage(menu_table) -> None:
     else: print('전송 실패.', str(response.json()))
     
 def generateMenuMesseage(menu_table) -> str:
-    txt = ""
-    today = datetime.today().weekday()
+    txt, today = "", datetime.today().weekday()
     try:
         txt += "[ 오늘은 " + Type.day[today] + "입니다 ]" + '\n'
         txt += Type.food[0] + ' : ' + menu_table[today][0] + '\n'
         txt += Type.food[1] + ' : ' + menu_table[today][1] + '\n'
         txt += Type.food[2] + ' : ' + ''.join(menu_table[today][3:]) + '\n'
-    except:
-        txt += "[ 오늘은 중앙식당을 운영하지 않습니다 ]" + '\n'
+    except: txt += "[ 오늘은 중앙식당을 운영하지 않습니다 ]" + '\n'
     return txt
 
 def run() -> None:
     print("==============================")
     print("중앙식당알리미를 시작합니다.")
     print("==============================")
-    # schedule.every().day.at("12:28").do(GNUFoodMessagingService)
-    schedule.every(3).seconds.do(GNUFoodMessagingService)
+    schedule.every().day.at("10:30").do(GNUFoodMessagingService)
+    # schedule.every(3600).seconds.do(GNUFoodMessagingService)
     while True:
         schedule.run_pending()
 
