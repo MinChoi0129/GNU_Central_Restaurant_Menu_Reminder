@@ -59,6 +59,7 @@ def sendKakaoTalkMessage(menu_table) -> None:
     
 def generateMenuMesseage(menu_table) -> str:
     txt, today = "", datetime.today().weekday()
+
     try:
         txt += "[ 오늘은 " + Type.day[today] + "입니다 ]" + '\n'
         txt += Type.food[0] + ' : ' + menu_table[today][0] + '\n'
