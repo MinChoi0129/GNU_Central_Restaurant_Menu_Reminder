@@ -12,7 +12,7 @@ def GNUFoodMessagingService() -> None:
     for token_type in ['refresh', 'access']:
         if isRefreshRequired(token_type): refreshToken(token_type)
 
-    menu_table = [str(bs4_element)[12:-4].split('<br/>')[:-1] for bs4_element in getSeleniumHTMLFromGNUWebPage()]
+    menu_table = [str(bs4_element)[12:-4].split('<br/>') for bs4_element in getSeleniumHTMLFromGNUWebPage()]
     sendKakaoTalkMessage(menu_table)
     
 def getSeleniumHTMLFromGNUWebPage() -> list:
@@ -59,7 +59,6 @@ def sendKakaoTalkMessage(menu_table) -> None:
     
 def generateMenuMesseage(menu_table) -> str:
     txt, today = "", datetime.today().weekday()
-
     try:
         txt += "[ 오늘은 " + Type.day[today] + "입니다 ]" + '\n'
         txt += Type.food[0] + ' : ' + menu_table[today][0] + '\n'
@@ -72,8 +71,8 @@ def run() -> None:
     print("==============================")
     print("중앙식당알리미를 시작합니다.")
     print("==============================")
-    schedule.every().day.at("10:30").do(GNUFoodMessagingService)
-    # schedule.every(3600).seconds.do(GNUFoodMessagingService)
+    # schedule.every().day.at("10:30").do(GNUFoodMessagingService)
+    schedule.every(5).seconds.do(GNUFoodMessagingService)
     while True:
         schedule.run_pending()
 
