@@ -38,7 +38,7 @@ def refreshToken(token_type):
     url = 'https://kauth.kakao.com/oauth/token'
     rest_api_key = 'ae0853e0034b1459fa968e890540c744'
     redirect_uri = 'https://example.com/oauth'
-    authorize_code = "2sXZUrsIYOQbtQ-bD-6IZvPjpd5kaVgZ6tOA_-2Dc5hY6lBGfORHDEy6nzahhiSyGzXomQo9dNoAAAGGIT_yRA"
+    authorize_code = "KdaFoIh3Xbc_g_-JEIHUW3UckeWmtReOJ2jXkMamA_nL5fczpdTPawjVjZOAAjv2cF3dpgorDKYAAAGGfqJtFg"
     # https://kauth.kakao.com/oauth/authorize?client_id=ae0853e0034b1459fa968e890540c744&redirect_uri=https://example.com/oauth&response_type=code
         
     if token_type == 'access':
@@ -52,7 +52,10 @@ def refreshToken(token_type):
         }
 
         with open("./tokens/access_token.json", "w") as fp:
-            json.dump(requests.post(url, data=data).json(), fp)
+            result = requests.post(url, data=data).json()
+            json.dump(result, fp)
+            if 'error' in result: log.error(f"{token_type}_token 갱신 실패")
+            else: log.info(f'{token_type}_token 갱신 성공')
 
     elif token_type == 'refresh':
         data = {
