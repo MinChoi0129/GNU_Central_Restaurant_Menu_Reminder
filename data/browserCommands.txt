@@ -1,0 +1,3 @@
+https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341
+frm = document.getElementById('detailForm'); frm.restSeq.value = '5'; frm.action = '/' + document.getElementById('sysId').value + '/ad/fm/foodmenu/selectFoodMenuView.do?mi=' + document.getElementById('mi').value; frm.submit();
+return document.body.innerHTML;
