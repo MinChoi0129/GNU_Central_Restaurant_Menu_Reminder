@@ -12,8 +12,8 @@ def routine() -> None:
 
 def scheduler() -> None:
     log.info("중앙식당알리미를 시작합니다.")
-    # schedule.every().day.at("10:30").do(main)
-    schedule.every(5).seconds.do(routine)
+    schedule.every().day.at("10:30").do(routine)
+    # schedule.every(5).seconds.do(routine)
     while True:
         schedule.run_pending()
 
