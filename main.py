@@ -17,5 +17,4 @@ def scheduler() -> None:
     while True:
         schedule.run_pending()
 
-
 scheduler()
